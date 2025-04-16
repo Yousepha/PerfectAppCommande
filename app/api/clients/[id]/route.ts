@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 import prisma from "@/app/lib/prisma";
 
-export const runtime = 'nodejs'; // 👈 Important pour éviter Edge Runtime
+// 👇 Important si tu veux forcer Node.js au lieu de Edge Runtime
+export const runtime = "nodejs";
 
-// PATCH client
+type Params = {
+  params: {
+    id: string;
+  };
+};
+
 export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  { params }: Params
 ) {
   const body = await request.json();
 
@@ -24,13 +29,12 @@ export async function PATCH(
     },
   });
 
-  return NextResponse.json(client, { status: 200 });
+  return NextResponse.json(client);
 }
 
-// DELETE client
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  { params }: Params
 ) {
   const client = await prisma.client.delete({
     where: {
@@ -38,7 +42,7 @@ export async function DELETE(
     },
   });
 
-  return NextResponse.json(client, { status: 200 });
+  return NextResponse.json(client);
 }
 
 
