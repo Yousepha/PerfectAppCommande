@@ -1,17 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import type { Client } from "@prisma/client";
 import prisma from "@/app/lib/prisma";
 
 // PATCH client
 export async function PATCH(
-  request: Request,
-  context: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
-  const body: Client = await request.json();
+  const body = await request.json();
 
   const client = await prisma.client.update({
     where: {
-      idClient: Number(context.params.id),
+      idClient: Number(params.id),
     },
     data: {
       prenom: body.prenom,
@@ -27,17 +29,18 @@ export async function PATCH(
 
 // DELETE client
 export async function DELETE(
-  request: Request,
-  context: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) {
   const client = await prisma.client.delete({
     where: {
-      idClient: Number(context.params.id),
+      idClient: Number(params.id),
     },
   });
 
   return NextResponse.json(client, { status: 200 });
 }
+
 
 
 // import { NextResponse } from "next/server";
