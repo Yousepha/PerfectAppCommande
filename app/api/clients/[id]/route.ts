@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import type { Client } from "@prisma/client";
 import prisma from "@/app/lib/prisma";
+
+export const runtime = 'nodejs'; // 👈 Important pour éviter Edge Runtime
 
 // PATCH client
 export async function PATCH(
@@ -40,6 +40,7 @@ export async function DELETE(
 
   return NextResponse.json(client, { status: 200 });
 }
+
 
 
 
