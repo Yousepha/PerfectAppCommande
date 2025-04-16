@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+  user   User    @relation(fields: [userId], references: [idUser])
+  userId Int     @unique
+}
+
+model User {
+  idUser    Int       @id @default(autoincrement())
+  prenom    String
+  nom       String
+  email     String   @unique
+  password  String
+  commandes Commande[]
+  profile Profile?
+}
+
+model Client {
+  idClient  Int    @id @default(autoincrement())
+  prenom    String
+  nom       String
+  adresse   String
+  telephone String
+  entreprise   String?
+  Commande Commande[]
+}
+
+model Commande {
+  idCommande    Int      @id @default(autoincrement())
+  quantite      Float
+  prixUnitaire  Float
+  dateCommande  DateTime
+  dateLivraison DateTime
+  commentaire   String?
+  User   User @relation(fields: [UserId], references: [idUser])
+  UserId Int
+  client       Client     @relation(fields: [clientId], references: [idClient])
+  clientId     Int
+  produit       Produit     @relation(fields: [produitId], references: [idProduit])
+  produitId     Int
+}
+
+model Produit {
+  idProduit    Int    @id @default(autoincrement())
+  libelle      String
+  commandes    Commande[]
+}
+
+model Depense {
+  idDepense   Int     @id @default(autoincrement())
+  libelle     String
+  quantite    Float
+  prixUnitaire Float
+  dateDepense   DateTime 
+  fournisseur  Fournisseur @relation(fields: [fournisseurId], references: [idFournisseur])
+  fournisseurId Int
+}
+
+model Fournisseur {
+  idFournisseur Int    @id @default(autoincrement())
+  nom          String
+  adresse      String
+  depenses     Depense[]
+}

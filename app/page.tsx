@@ -1,95 +1,52 @@
+"use client";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import styles from "./page.module.css";
 
-export default function Home() {
+export default function LandingPage() {
+  const router = useRouter();
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
+    <div className="relative w-full h-screen">
+      {/* Image de fond */}
+      <div className="absolute inset-0">
         <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          src="/background.jpg" // Remplace par ton image
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
         />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+      </div>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+      {/* Navbar */}
+      <nav className="absolute top-0 left-0 w-full flex items-center justify-between px-10 py-4 bg-white bg-opacity-80 shadow-md z-50">
+        {/* Logo */}
+        <div className="flex items-center">
+          <Image src="/logo.png" alt="Logo" width={100} height={50} />
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+        {/* Bouton Connexion */}
+        <button
+          onClick={() => router.push("/login")}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-lg transition cursor-pointer"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Se connecter
+        </button>
+      </nav>
+
+      {/* Contenu principal */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6">
+        <h1 className="text-5xl font-bold mb-4">Bienvenue chez Perfect Group</h1>
+        <p className="text-xl mb-6">Optimisez la gestion de vos commandes et dépenses.</p>
+
+        {/* <button
+          onClick={() => router.push("/dashboard")}
+          className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg text-lg transition shadow-lg cursor-pointer"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          Accéder au Dashboard
+        </button> */}
+      </div>
     </div>
   );
 }
