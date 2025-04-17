@@ -19,10 +19,14 @@ const getFournisseurs = async (page: number, pageSize: number) => {
   return { fournisseurs, totalPages: Math.ceil(totalCount / pageSize) };
 };
 
+// ✅ Interface typée proprement
+interface PageProps {
+  searchParams?: Promise<{ page?: string }>; // ✅ searchParams as a Promise
+}
 
-const FournisseursPage = async ({ searchParams }: { searchParams: { page?: string } }) => {
+const FournisseursPage = async ({ searchParams }: PageProps) => {
   const pageSize = 5; // Nombre d'éléments par page
-  const page = parseInt(searchParams.page || "1", 10); // Convertir le paramètre en nombre
+  const page = parseInt((await searchParams)?.page || "1", 10); // Convertir le paramètre en nombre
   const { fournisseurs, totalPages } = await getFournisseurs(page, pageSize);
 
   return (

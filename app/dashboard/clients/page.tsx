@@ -22,10 +22,14 @@ const getClients = async (page: number, pageSize: number) => {
   return { clients, totalPages: Math.ceil(totalCount / pageSize) };
 };
 
+// ✅ Interface typée proprement
+interface PageProps {
+  searchParams?: Promise<{ page?: string }>; // ✅ searchParams as a Promise
+}
 
-const ClientsPage = async ({ searchParams }: { searchParams: { page?: string } }) => {
+const ClientsPage = async ({ searchParams }: PageProps) => {
   const pageSize = 5; // Nombre d'éléments par page
-  const page = parseInt(searchParams.page || "1", 10); // Convertir le paramètre en nombre
+  const page = parseInt((await searchParams)?.page || "1", 10); // Convertir le paramètre en nombre
   const { clients, totalPages } = await getClients(page, pageSize);
 
   return (

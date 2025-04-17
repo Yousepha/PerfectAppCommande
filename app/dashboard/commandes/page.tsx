@@ -1,10 +1,15 @@
 import CommandesClient from "./CommandesClient";
 
-const CommandesPage = () => {
-  return <CommandesClient />;
-};
+interface Props {
+  searchParams?: Promise<{ page?: string,status?: string }>;
+}
 
-export default CommandesPage;
+export default async function Page({ searchParams }: Props) {
+  const page = (await searchParams)?.page || "1";
+  const status = (await searchParams)?.status || "all";
+
+  return <CommandesClient page={page} status={status} />;
+}
 
 
 // import prisma from "@/app/lib/prisma";

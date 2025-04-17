@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import AddCommande from "./addCommande";
 import UpdateCommande from "./updateCommande";
 import DeleteCommande from "./deleteCommande";
@@ -18,8 +18,13 @@ const formatDate = (dateString: string) => {
   });
 };
 
-const CommandesClient = () => {
-  const searchParams = useSearchParams();
+interface Props {
+  page: string;
+  status: string;
+}
+
+const CommandesClient = ({ page, status }: Props) => {
+  // const searchParams = useSearchParams();
   const router = useRouter();
 
   const [commandes, setCommandes] = useState([]);
@@ -28,8 +33,8 @@ const CommandesClient = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const pageSize = 5;
-  const currentPage = parseInt(searchParams.get("page") || "1", 10);
-  const status = searchParams.get("status") || "all";
+  const currentPage = parseInt(page, 10);
+  // const status = searchParams.get("status") || "all";
 
   const fetchData = async () => {
     try {

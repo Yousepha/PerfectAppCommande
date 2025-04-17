@@ -37,9 +37,14 @@ const getFournisseurs = async () => {
   return await prisma.fournisseur.findMany();
 };
 
-const DepensesPage = async ({ searchParams }: { searchParams: { page?: string } }) => {
+// ✅ Interface typée proprement
+interface PageProps {
+  searchParams?: Promise<{ page?: string }>; // ✅ searchParams as a Promise
+}
+
+const DepensesPage = async ({ searchParams }: PageProps) => {
   const pageSize = 5; // Nombre d'éléments par page
-  const page = parseInt(searchParams.page || "1", 10); // Convertir le paramètre en nombre
+  const page = parseInt((await searchParams)?.page || "1", 10); // Convertir le paramètre en nombre
   const { depenses, totalPages } = await getDepenses(page, pageSize);
   const fournisseurs = await getFournisseurs();
 
