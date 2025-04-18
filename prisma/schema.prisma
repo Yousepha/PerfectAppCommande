@@ -1,44 +1,38 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model Profile {
   id     Int     @id @default(autoincrement())
   bio    String?
-  user   User    @relation(fields: [userId], references: [idUser])
   userId Int     @unique
+  user   User    @relation(fields: [userId], references: [idUser])
 }
 
 model User {
-  idUser    Int       @id @default(autoincrement())
-  prenom    String
-  nom       String
-  email     String   @unique
+  email     String     @unique
   password  String
+  idUser    Int        @id @default(autoincrement())
+  nom       String
+  prenom    String
   commandes Commande[]
-  profile Profile?
+  profile   Profile?
 }
 
 model Client {
-  idClient  Int    @id @default(autoincrement())
-  prenom    String
-  nom       String
-  adresse   String
-  telephone String
-  entreprise   String?
-  Commande Commande[]
+  idClient   Int        @id @default(autoincrement())
+  prenom     String
+  nom        String
+  adresse    String
+  telephone  String
+  entreprise String?
+  Commande   Commande[]
 }
 
 model Commande {
@@ -48,33 +42,33 @@ model Commande {
   dateCommande  DateTime
   dateLivraison DateTime
   commentaire   String?
-  User   User @relation(fields: [UserId], references: [idUser])
-  UserId Int
-  client       Client     @relation(fields: [clientId], references: [idClient])
-  clientId     Int
-  produit       Produit     @relation(fields: [produitId], references: [idProduit])
+  UserId        Int
   produitId     Int
+  clientId      Int
+  User          User     @relation(fields: [UserId], references: [idUser])
+  client        Client   @relation(fields: [clientId], references: [idClient])
+  produit       Produit  @relation(fields: [produitId], references: [idProduit])
 }
 
 model Produit {
-  idProduit    Int    @id @default(autoincrement())
-  libelle      String
-  commandes    Commande[]
+  idProduit Int        @id @default(autoincrement())
+  libelle   String
+  commandes Commande[]
 }
 
 model Depense {
-  idDepense   Int     @id @default(autoincrement())
-  libelle     String
-  quantite    Float
-  prixUnitaire Float
-  dateDepense   DateTime 
-  fournisseur  Fournisseur @relation(fields: [fournisseurId], references: [idFournisseur])
+  idDepense     Int         @id @default(autoincrement())
+  libelle       String
+  quantite      Float
+  prixUnitaire  Float
   fournisseurId Int
+  dateDepense   DateTime
+  fournisseur   Fournisseur @relation(fields: [fournisseurId], references: [idFournisseur])
 }
 
 model Fournisseur {
-  idFournisseur Int    @id @default(autoincrement())
-  nom          String
-  adresse      String
-  depenses     Depense[]
+  idFournisseur Int       @id @default(autoincrement())
+  nom           String
+  adresse       String
+  depenses      Depense[]
 }
